@@ -19,6 +19,7 @@
       <!-- buttons for chatrooms -->
       <div class="chatRooms mb-3 text-center">
         <div class="my-2">Choose a chatroom:</div>
+        <button class="btn" id="general">#General</button>
         <button class="btn" id="general">#Bus updates</button>
         <button class="btn" id="gaming">#Porn</button>
         <button class="btn" id="music">#Boobs</button>
@@ -55,8 +56,9 @@
         <div class="updateMssg"></div>
       </form>
     </div>
+    <!-- resolves data fns propblem -->
+    <!-- https://github.com/andrewcourtice/vuetiful/issues/30 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.27.1/date_fns.min.js"></script>
-    <!-- <script src="http://cdn.date-fns.org/v1.9.0/date_fns.min.js"></script> -->
     <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
     <script>
