@@ -1,12 +1,13 @@
 class ChatRoom {
-  constructor(room, username) {
-    this.room = room;
+  constructor(username, room) {
     this.username = username;
+    this.room = room;
     this.chats = db.collection("chats");
     this.unsub;
   }
 
-  async addChats(message) {
+  async addChat(message) {
+    // format a chat object
     const now = new Date();
     const chat = {
       message,
@@ -14,15 +15,12 @@ class ChatRoom {
       room: this.room,
       created_at: firebase.firestore.Timestamp.fromDate(now),
     };
+    // save the chat document
     const response = await this.chats.add(chat);
     return response;
   }
 
-  //   real time listener
-  // will be listening every time
-  // hence not an async task
-
-  getChats(callback) {
+  getChat(callback) {
     this.unsub = this.chats
       .where("room", "==", this.room)
       .orderBy("created_at")
@@ -36,7 +34,7 @@ class ChatRoom {
       });
   }
 
-  updateName(username) {
+  updateUsername(username) {
     this.username = username;
     localStorage.setItem("username", username);
   }
@@ -50,12 +48,12 @@ class ChatRoom {
   }
 }
 
-// // emulate user click
+// // simulate user click action
 // setTimeout(() => {
-//   chatRoom.updateRoom("gaming");
-//   //   chatRoom.updateName("Shaun");
-//   chatRoom.getChats((data) => {
+//   chatRoom.updateRoom("music");
+//   chatRoom.getChat((data) => {
 //     console.log(data);
 //   });
-//   //   chatRoom.addChats("hello");
+//   chatRoom.updateUsername("Shamsu");
+//   chatRoom.addChat("I love clb");
 // }, 3000);
