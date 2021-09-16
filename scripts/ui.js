@@ -1,7 +1,7 @@
-// render chat templates
-// clear the list of chats (when room changes)
+// render templates to the dom
+// clear list of chat when chat room changes
 
-class Chatui {
+class ChatUi {
   constructor(list) {
     this.list = list;
   }
@@ -15,13 +15,12 @@ class Chatui {
       addSuffix: true,
     });
     const html = `
-    <li class="list-group-item">
-      <span class="username">${data.username}</span>
-      <span class="message">${data.message}</span>
-      <div class="time">${when}</span>
-    </li>
-  `;
+<li class="list-group-item">
+  <span class="username">${data.username}</span>
+  <span class="message">${data.message}</span>
+  <div class="time">${when}</span>
+</li>
+`;
     this.list.innerHTML += html;
-    console.log("ui");
   }
 }

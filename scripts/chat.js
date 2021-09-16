@@ -1,9 +1,4 @@
-// adding new chat document
-// set up a real time listener to get new chats
-// update username
-// update room
-
-class Chatroom {
+class ChatRoom {
   constructor(room, username) {
     this.room = room;
     this.username = username;
@@ -11,8 +6,7 @@ class Chatroom {
     this.unsub;
   }
 
-  async addChat(message) {
-    //   format a chat object
+  async addChats(message) {
     const now = new Date();
     const chat = {
       message,
@@ -20,13 +14,15 @@ class Chatroom {
       room: this.room,
       created_at: firebase.firestore.Timestamp.fromDate(now),
     };
-
-    // save chat docs
     const response = await this.chats.add(chat);
     return response;
   }
 
-  getChat(callback) {
+  //   real time listener
+  // will be listening every time
+  // hence not an async task
+
+  getChats(callback) {
     this.unsub = this.chats
       .where("room", "==", this.room)
       .orderBy("created_at")
@@ -34,17 +30,15 @@ class Chatroom {
         snapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
             //upadte ui
-            console.log("live");
-
             callback(change.doc.data());
           }
         });
       });
   }
 
-  updateName(userName) {
-    this.username = userName;
-    localStorage.setItem("username", userName);
+  updateName(username) {
+    this.username = username;
+    localStorage.setItem("username", username);
   }
 
   updateRoom(room) {
@@ -55,3 +49,13 @@ class Chatroom {
     }
   }
 }
+
+// // emulate user click
+// setTimeout(() => {
+//   chatRoom.updateRoom("gaming");
+//   //   chatRoom.updateName("Shaun");
+//   chatRoom.getChats((data) => {
+//     console.log(data);
+//   });
+//   //   chatRoom.addChats("hello");
+// }, 3000);

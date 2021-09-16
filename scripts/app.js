@@ -1,15 +1,16 @@
-// dom queries
-const chatList = document.querySelector(".chatList");
+// dom query
+const listGroup = document.querySelector(".listGroup");
 const newChatForm = document.querySelector(".newChat");
 const newNameForm = document.querySelector(".newName");
-const updateMssg = document.querySelector(".updateMssg");
+const updateMSG = document.querySelector(".updateMssg");
 const chatRooms = document.querySelector(".chatRooms");
-// add new chat
+
+// add a new chat
 newChatForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const message = newChatForm.message.value.trim();
   chatRoom
-    .addChat(message)
+    .addChats(message)
     .then(() => {
       newChatForm.reset();
     })
@@ -18,43 +19,34 @@ newChatForm.addEventListener("submit", (e) => {
     });
 });
 
-// update user name
+// update username
 newNameForm.addEventListener("submit", (e) => {
   e.preventDefault();
-
-  //   update name via chatroom class
   const newName = newNameForm.name.value.trim();
   chatRoom.updateName(newName);
-
-  //   reset form
+  updateMSG.innerText = `Your name was updated to ${newName}`;
   newNameForm.reset();
 
-  //   show and hide the update msg
-  updateMssg.innerText = `Your name was updated to ${newName}`;
   setTimeout(() => {
-    updateMssg.innerText = "";
+    updateMSG.innerText = "";
   }, 3000);
 });
 
-// update the chat room
+// update rooms
 chatRooms.addEventListener("click", (e) => {
   if (e.target.tagName === "BUTTON") {
     chatUi.clear();
     chatRoom.updateRoom(e.target.getAttribute("id"));
-    chatRoom.getChat((chat) => chatUi.render(chat));
-    console.log("local");
+    chatRoom.getChats((chats) => chatUi.render(chats));
   }
 });
 
 // check local storage for name
-const username = localStorage.getItem("username")
-  ? localStorage.getItem("username")
-  : "anon";
+const username = localStorage.username ? localStorage.username : "anon";
 
 // class instances
-const chatUi = new Chatui(chatList);
-const chatRoom = new Chatroom("general", username);
+const chatUi = new ChatUi(listGroup);
+const chatRoom = new ChatRoom("general", username);
 
-// gets chats and render
-chatRoom.getChat((data) => chatUi.render(data));
-console.log("global");
+// get chats and render
+chatRoom.getChats((data) => chatUi.render(data));
